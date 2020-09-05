@@ -255,7 +255,7 @@ def Pdf():
 			self.heading = heading
 			self.info = Product
 
-	myData = Data("Product.pdf","List Product", "hipirmit")
+	myData = Data("Product.pdf","Product List", "hipirmit")
 	myPdf = canvas.Canvas(myData.filename)
 	myPdf.setTitle(myData.documentTitle)
 
