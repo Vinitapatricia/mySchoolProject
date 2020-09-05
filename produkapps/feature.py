@@ -262,7 +262,7 @@ def Pdf():
 	#PRINT ON PAPER
 	myPdf.setFont("Courier", 30)
 	myPdf.setFillColorRGB(0,0,0)
-	myPdf.drawCentredString(300,770, "List Product")
+	myPdf.drawCentredString(300,770, "Product List")
 	myPdf.line(30,760, 580, 760)
 	#           x1  y1   x2   y2
 
