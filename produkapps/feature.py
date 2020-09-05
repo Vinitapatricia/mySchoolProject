@@ -101,9 +101,9 @@ def tambahProduk():
 	discount = float(input("Discount Price in Percent:"))
 	discountPrice = int(harga-(harga*discount/100))
 
-	hargastr = str(harga)
-	discountPricestr = str(discountPrice)
-	Product.update({code:[produk,hargastr,discountPricestr,discount]})
+	#hargastr = str(harga)
+	#discountPricestr = str(discountPrice)
+	Product.update({code:[produk,harga,discountPrice,discount]})
 	saveData()
 	print("Saving Data...")
 	sleep(2)
@@ -149,11 +149,11 @@ def ubahHarga():
 		discount = float(((harga - diskon )*100)/harga)
 		discountPrice = int(hargaBaru-(hargaBaru*discount/100))
 
-		hargaBarustr = str(hargaBaru)
-		discountPricestr = str(discountPrice)
+		#hargaBarustr = str(hargaBaru)
+		#discountPricestr = str(discountPrice)
 
-		Product[code][1] = hargaBarustr
-		Product[code][2] = discountPricestr
+		Product[code][1] = hargaBaru
+		Product[code][2] = discountPrice
 		saveData()
 		print("Saving Data...")
 		sleep(2)
@@ -209,9 +209,9 @@ def ubahDiskon():
 		harga = int(Product[code][1])
 		diskon = int(Product[code][2])
 		discountPrice = int(harga-(harga * dikonBaru /100))
-		discountPricestr = str(discountPrice)
+		#discountPricestr = str(discountPrice)
 
-		Product[code][2] =discountPricestr
+		Product[code][2] =discountPrice
 		Product[code][3] = dikonBaru
 		saveData()
 		print("Saving Data...")
@@ -272,14 +272,13 @@ def Pdf():
 	for produk in sorted(Product, key = Product.get, reverse = False):
 		code = "Product Code  : " + produk
 		nama = "Product           : "+ Product[produk][0]
-		harga ="Normal Price   : "+ Product[produk][1] 
-		diskon= "Discount Price : "+Product[produk][2]
+		harga ="Normal Price   : "+ str(Product[produk][1]) 
+		diskon= "Discount Price : "+ str(Product[produk][2])
 		garis = myPdf.line(30,760, 580, 760)
 		Lines = [code,nama,harga,diskon,garis]
 
 		for line in Lines:
 			myText.textLine(line)
 		myPdf.drawText(myText)
-
 
 	myPdf.save()

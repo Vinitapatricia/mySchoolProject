@@ -68,7 +68,7 @@ if statusLoading:
 				feature.diskonTerendah()
 				input("ENTER To Exit")
 
-			elif PilihanMenu == "1":
+			elif PilihanMenu == "13":
 				feature.Pdf()
 				input("ENTER To Exit")
 
