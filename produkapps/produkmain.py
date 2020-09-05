@@ -68,6 +68,10 @@ if statusLoading:
 				feature.diskonTerendah()
 				input("ENTER To Exit")
 
+			elif PilihanMenu == "1":
+				feature.Pdf()
+				input("ENTER To Exit")
+
 			elif PilihanMenu == "q":
 				system("cls")
 				print("Thank You For Using Our Apps")
