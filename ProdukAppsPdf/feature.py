@@ -53,7 +53,7 @@ def login():
 
 	while (not dataCheck) or (not passLogin):
 		counter += 1	
-		if counter > 3:
+		if counter > 5:
 			return False
 		print("Username or Password is WRONG")
 		Username = input("Enter Username: ")
@@ -79,6 +79,7 @@ def Print_menu():
 	print("10. Print Product From The Lowest Price")
 	print("11. Print Product From The Highest Discount")
 	print("12. Print Product From The Lowest Discount")
+	print("13. Print Product To Pdf")
 	print("Q. Quit")
 
 def printProduk():
@@ -100,7 +101,9 @@ def tambahProduk():
 	discount = float(input("Discount Price in Percent:"))
 	discountPrice = int(harga-(harga*discount/100))
 
-	Product.update({code:[produk,harga,discountPrice,discount]})
+	hargastr = str(harga)
+	discountPricestr = str(discountPrice)
+	Product.update({code:[produk,hargastr,discountPricestr,discount]})
 	saveData()
 	print("Saving Data...")
 	sleep(2)
@@ -138,14 +141,19 @@ def ubahHarga():
 	print("Change Price\n")
 	produk = input("Product \t :").upper()
 	code = input("Code \t\t :").upper()
-	hargaBaru = float(input("New Price \t :"))
+	hargaBaru = int(input("New Price \t :"))
 
 	if code in Product:
-		discount = float(((Product[code][1] - Product[code][2])*100)/Product[code][1])
-		discountPrice = float(hargaBaru-(hargaBaru*discount/100))
+		harga = int(Product[code][1])
+		diskon = int(Product[code][2])
+		discount = float(((harga - diskon )*100)/harga)
+		discountPrice = int(hargaBaru-(hargaBaru*discount/100))
 
-		Product[code][1] = hargaBaru
-		Product[code][2] = discountPrice
+		hargaBarustr = str(hargaBaru)
+		discountPricestr = str(discountPrice)
+
+		Product[code][1] = hargaBarustr
+		Product[code][2] = discountPricestr
 		saveData()
 		print("Saving Data...")
 		sleep(2)
@@ -198,9 +206,12 @@ def ubahDiskon():
 	dikonBaru = float(input("New Discount \t:"))
 
 	if code in Product:
-		discountPrice = float(Product[code][1]-(Product[code][1] * dikonBaru /100))
+		harga = int(Product[code][1])
+		diskon = int(Product[code][2])
+		discountPrice = int(harga-(harga * dikonBaru /100))
+		discountPricestr = str(discountPrice)
 
-		Product[code][2] =discountPrice
+		Product[code][2] =discountPricestr
 		Product[code][3] = dikonBaru
 		saveData()
 		print("Saving Data...")
@@ -233,3 +244,42 @@ def diskonTerendah():
 
 	for produk in sorted(Product.items(), key= lambda k : k[1][3] , reverse=False):
 		print(f"Product Code:{produk[0]} \n Product: {produk[1][0]}\t Normal Price:{produk[1][1]}\t Discount Price: {produk[1][2]}")
+
+def Pdf():
+
+	class Data:
+
+		def __init__(self, filename, documentTitle, heading):
+			self.filename = filename
+			self.documentTitle = documentTitle
+			self.heading = heading
+			self.info = Product
+
+	myData = Data("Product.pdf","List Product", "hipirmit")
+	myPdf = canvas.Canvas(myData.filename)
+	myPdf.setTitle(myData.documentTitle)
+
+	#PRINT ON PAPER
+	myPdf.setFont("Courier", 30)
+	myPdf.setFillColorRGB(0,0,0)
+	myPdf.drawCentredString(300,770, "List Product")
+	myPdf.line(30,760, 580, 760)
+	#           x1  y1   x2   y2
+
+	myText = myPdf.beginText(35,680)
+	myText.setFont("Helvetica", 18)
+
+	for produk in sorted(Product, key = Product.get, reverse = False):
+		code = "Product Code  : " + produk
+		nama = "Product           : "+ Product[produk][0]
+		harga ="Normal Price   : "+ Product[produk][1] 
+		diskon= "Discount Price : "+Product[produk][2]
+		garis = myPdf.line(30,760, 580, 760)
+		Lines = [code,nama,harga,diskon,garis]
+
+		for line in Lines:
+			myText.textLine(line)
+		myPdf.drawText(myText)
+
+
+	myPdf.save()
