@@ -86,7 +86,7 @@ def printProduk():
 	system("cls")
 	if len(Product) > 0 :
 		for produk in sorted(Product, key = Product.get, reverse = False):
-			print(f"Product Code:{produk} \n Product:{Product[produk][0]}\t Normal Price :{Product[produk][1]}\t Discount Price:{Product[produk][2]} ")
+			print(f"Product Code:{produk} \n    Product:{Product[produk][0]}\t Normal Price :{Product[produk][1]}\t Discount Price:{Product[produk][2]}\n")
 
 	else:
 		print("There Is No Product Available Right Now")
@@ -123,16 +123,29 @@ def hapusProduk():
 		sleep(2)
 		print("Data Removed")
 	else:
-		print(f'{Product} does not exists in Product')
+		print(f'{produk} does not exists in Product')
 
 def lookUp():
+	ok = False
 	system("cls")
 	print("Looking Up a Product \n")
 	produk = input("Product \t :").upper()
-	code = input("Code \t\t :").upper()
-	if code in Product:
+	# code = input("Code \t\t :").upper()
+	# for i in Product.values():
+	# 	for j in i:
+	# 		if produk in str(j):
+	cnt = 0
+	for key,value in Product.items() :
+		if value[0] == produk:
+			ok = True
+			a = list(Product)
+			key_ = a [cnt]
+			value_ = value
+		cnt+=1
+
+	if ok:
 		system("cls")
-		print(f"Product Code:{code} \n Product: {Product[code][0]}\t Normal Price:{Product[code][1]}\t Discount Price: {Product[code][2]}")
+		print(f"Product Code:{key_} \n Product: {produk}\t Normal Price:{value[1]}\t Discount Price: {value[2]}")
 	else :
 		print(f"{produk} doesn't exists Product")
 
@@ -255,14 +268,14 @@ def Pdf():
 			self.heading = heading
 			self.info = Product
 
-	myData = Data("Product.pdf","Product List", "hipirmit")
+	myData = Data("Product.pdf","List Product", "hipirmit")
 	myPdf = canvas.Canvas(myData.filename)
 	myPdf.setTitle(myData.documentTitle)
 
 	#PRINT ON PAPER
 	myPdf.setFont("Courier", 30)
 	myPdf.setFillColorRGB(0,0,0)
-	myPdf.drawCentredString(300,770, "Product List")
+	myPdf.drawCentredString(300,770, "List Product")
 	myPdf.line(30,760, 580, 760)
 	#           x1  y1   x2   y2
 
@@ -272,7 +285,7 @@ def Pdf():
 	for produk in sorted(Product, key = Product.get, reverse = False):
 		code = "Product Code  : " + produk
 		nama = "Product           : "+ Product[produk][0]
-		harga ="Normal Price   : "+ str(Product[produk][1]) 
+		harga ="Normal Price    : "+ str(Product[produk][1]) 
 		diskon= "Discount Price : "+ str(Product[produk][2])
 		garis = myPdf.line(30,760, 580, 760)
 		Lines = [code,nama,harga,diskon,garis]

@@ -70,6 +70,7 @@ if statusLoading:
 
 			elif PilihanMenu == "13":
 				feature.Pdf()
+				print("Pdf Already Printed")
 				input("ENTER To Exit")
 
 			elif PilihanMenu == "q":
