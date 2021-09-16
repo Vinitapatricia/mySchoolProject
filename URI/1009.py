@@ -1,5 +1,5 @@
-NAMA = input()
+NAME = str(input())
 A = float(input())
 B = float(input())
-TOTAL = (B*15/100) + A
+TOTAL = (A+B)*(15/100)
 print("TOTAL = R$ %.2f" %TOTAL)

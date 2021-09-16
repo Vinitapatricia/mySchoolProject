@@ -1,11 +1,6 @@
-line = str(input(" "))
-sepelit = line.split(" ")
-A = split(0)
-B = split(1)
-C = split(2)
-D = split(3)
+A, B, C, D = input().split()
 
-if B > C and D > A and (C + D) > (A + B) and C <-1 and D <-1 and A %2 == 1 :
+if int(B) > int(C) and int(D) > int(A) and int(C)+int(D) > int(A)+int(B) and int(C) >=0 and int(D) >=0 and int(A) %2== 0 :
 	print("Valores aceitos")
 else:
 	print("Valores nao aceitos")
